@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Inter:wght@400;500;600&display=swap');
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 16px;
+  --background: #FBF9F4;
+  --foreground: #2C2C2C;
+  --card: #FFFFFF;
+  --card-foreground: #2C2C2C;
+  --popover: #FFFFFF;
+  --popover-foreground: #2C2C2C;
+  --primary: #224B0C;
+  --primary-foreground: #FBF9F4;
+  --secondary: #E8E4DB;
+  --secondary-foreground: #2C2C2C;
+  --muted: #E8E4DB;
+  --muted-foreground: #6B6B6B;
+  --accent: #B75D0B;
+  --accent-foreground: #FBF9F4;
+  --destructive: #C44536;
+  --destructive-foreground: #FBF9F4;
+  --border: rgba(44, 44, 44, 0.15);
+  --input: transparent;
+  --input-background: #FFFFFF;
+  --switch-background: #C8C0B3;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: #224B0C;
+  --chart-1: #224B0C;
+  --chart-2: #3A6B1F;
+  --chart-3: #5A8A32;
+  --chart-4: #B75D0B;
+  --chart-5: #D4743F;
+  --radius: 0.5rem;
+  --sidebar: #224B0C;
+  --sidebar-foreground: #FBF9F4;
+  --sidebar-primary: #B75D0B;
+  --sidebar-primary-foreground: #FBF9F4;
+  --sidebar-accent: #2D5E0F;
+  --sidebar-accent-foreground: #FBF9F4;
+  --sidebar-border: rgba(251, 249, 244, 0.15);
+  --sidebar-ring: #B75D0B;
+}
+
+.dark {
+  --background: #1A1A1A;
+  --foreground: #E8E4DB;
+  --card: #252525;
+  --card-foreground: #E8E4DB;
+  --popover: #252525;
+  --popover-foreground: #E8E4DB;
+  --primary: #3A6B1F;
+  --primary-foreground: #FBF9F4;
+  --secondary: #3A3A3A;
+  --secondary-foreground: #E8E4DB;
+  --muted: #3A3A3A;
+  --muted-foreground: #A8A8A8;
+  --accent: #D4743F;
+  --accent-foreground: #1A1A1A;
+  --destructive: #E05A4A;
+  --destructive-foreground: #FBF9F4;
+  --border: rgba(232, 228, 219, 0.2);
+  --input: transparent;
+  --input-background: #2A2A2A;
+  --switch-background: #4A4A4A;
+  --ring: #3A6B1F;
+  --chart-1: #3A6B1F;
+  --chart-2: #5A8A32;
+  --chart-3: #7AAA45;
+  --chart-4: #D4743F;
+  --chart-5: #E89B6F;
+  --sidebar: #1F3D0A;
+  --sidebar-foreground: #E8E4DB;
+  --sidebar-primary: #D4743F;
+  --sidebar-primary-foreground: #1A1A1A;
+  --sidebar-accent: #2D5E0F;
+  --sidebar-accent-foreground: #E8E4DB;
+  --sidebar-border: rgba(232, 228, 219, 0.15);
+  --sidebar-ring: #D4743F;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+/**
+ * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
+ */
+@layer base {
+  :where(:not(:has([class*=' text-']), :not(:has([class^='text-'])))) {
+    h1 {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    h2 {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: var(--text-xl);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    h3 {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: var(--text-lg);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    h4 {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: var(--text-base);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    p {
+      font-family: 'Inter', 'Lato', sans-serif;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.6;
+    }
+
+    label {
+      font-family: 'Inter', 'Lato', sans-serif;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    button {
+      font-family: 'Inter', 'Lato', sans-serif;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    input {
+      font-family: 'Inter', 'Lato', sans-serif;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+  }
+}
+
+html {
+  font-size: var(--font-size);
+  font-family: 'Inter', 'Lato', sans-serif;
+}
+
+/* Subtle texture overlay for light mode only */
+body:not(.dark)::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.015;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' /%3E%3C/svg%3E");
+  z-index: -1;
+}

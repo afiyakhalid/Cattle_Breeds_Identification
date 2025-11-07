@@ -1,0 +1,11 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Model
+# THIS IS THE MOST IMPORTANT LINE
+local_model/
+
+# Mac
+.DS_Store
