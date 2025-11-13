@@ -4,40 +4,27 @@ import { Button } from './ui/button';
 import { Upload, Camera, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Progress } from './ui/progress';
 
+// --- REAL API IMPORT ---
+import { predictImage } from '../api/predict'; // Make sure this path is correct!
+
 interface RecognizeBreedProps {
   onNavigate: (page: string, breedId?: string) => void;
 }
 
+// --- UPDATED INTERFACE (to match your API) ---
 interface ClassificationResult {
-  breed: string;
+  label: string;
   confidence: number;
-  alternatives: { breed: string; confidence: number }[];
 }
 
 export function RecognizeBreed({ onNavigate }: RecognizeBreedProps) {
   const [image, setImage] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null); // <-- 1. ADDED FILE STATE
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<ClassificationResult | null>(null);
   const [dragActive, setDragActive] = useState(false);
 
-  const mockResults: { [key: string]: ClassificationResult } = {
-    default: {
-      breed: 'Holstein',
-      confidence: 92,
-      alternatives: [
-        { breed: 'Friesian', confidence: 5 },
-        { breed: 'Dutch Belted', confidence: 3 },
-      ],
-    },
-    second: {
-      breed: 'Angus',
-      confidence: 88,
-      alternatives: [
-        { breed: 'Black Hereford', confidence: 8 },
-        { breed: 'Galloway', confidence: 4 },
-      ],
-    },
-  };
+  // --- 2. DELETED MOCK RESULTS ---
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -61,6 +48,7 @@ export function RecognizeBreed({ onNavigate }: RecognizeBreedProps) {
 
   const handleFile = (file: File) => {
     if (file && file.type.startsWith('image/')) {
+      setImageFile(file); // <-- 3. SAVE THE FILE
       const reader = new FileReader();
       reader.onload = (e) => {
         setImage(e.target?.result as string);
@@ -76,21 +64,33 @@ export function RecognizeBreed({ onNavigate }: RecognizeBreedProps) {
     }
   };
 
-  const handleClassify = () => {
+  // --- 4. REPLACED WITH REAL API CALL ---
+  const handleClassify = async () => {
+    if (!imageFile) {
+      console.error("No file to classify!");
+      return;
+    }
+
     setIsAnalyzing(true);
     setResult(null);
 
-    // Simulate API call to CNN model
-    setTimeout(() => {
-      const results = Object.values(mockResults);
-      const randomResult = results[Math.floor(Math.random() * results.length)];
-      setResult(randomResult);
+    try {
+      // THIS IS THE REAL API CALL
+      const data = await predictImage(imageFile);
+      // data will be { label: "Sahiwal", confidence: 92 }
+      setResult(data);
+    } catch (error) {
+      console.error("Classification failed:", error);
+      // You could add an error state here to show the user
+      // Example: setError("Analysis failed. Please try again.")
+    } finally {
       setIsAnalyzing(false);
-    }, 2500);
+    }
   };
 
   const handleReset = () => {
     setImage(null);
+    setImageFile(null); // <-- 5. RESET THE FILE
     setResult(null);
     setIsAnalyzing(false);
   };
@@ -103,7 +103,7 @@ export function RecognizeBreed({ onNavigate }: RecognizeBreedProps) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Upload Section */}
+        {/* Upload Section (No changes here) */}
         <Card>
           <CardHeader>
             <CardTitle>Upload Photo</CardTitle>
@@ -208,7 +208,8 @@ export function RecognizeBreed({ onNavigate }: RecognizeBreedProps) {
                     <CheckCircle2 className="w-6 h-6 text-green-700 flex-shrink-0 mt-1" />
                     <div>
                       <h3 className="text-green-900 mb-1">Primary Match</h3>
-                      <p className="text-green-800 mb-2">{result.breed}</p>
+                      {/* --- 6. FIXED: result.breed -> result.label --- */}
+                      <p className="text-green-800 mb-2">{result.label}</p>
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
                           <span className="text-green-700">Confidence Score</span>
@@ -219,39 +220,22 @@ export function RecognizeBreed({ onNavigate }: RecognizeBreedProps) {
                     </div>
                   </div>
                   <Button
-                    onClick={() => onNavigate('breeds', result.breed.toLowerCase())}
+                    // --- 7. FIXED: result.breed -> result.label ---
+                    onClick={() => onNavigate('breeds', result.label.toLowerCase())}
                     className="w-full bg-green-700 hover:bg-green-800"
                   >
-                    Learn more about {result.breed}
+                    Learn more about {result.label}
                   </Button>
                 </div>
 
-                {result.alternatives.length > 0 && (
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <AlertCircle className="w-4 h-4 text-neutral-500" />
-                      <h4 className="text-neutral-700">Alternative Matches</h4>
-                    </div>
-                    <div className="space-y-3">
-                      {result.alternatives.map((alt, index) => (
-                        <div key={index} className="bg-neutral-50 rounded-lg p-4">
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="text-neutral-700">{alt.breed}</span>
-                            <span className="text-sm text-neutral-600">{alt.confidence}%</span>
-                          </div>
-                          <Progress value={alt.confidence} className="h-1.5 bg-neutral-200" />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                {/* --- 8. DELETED ALTERNATIVES BLOCK --- */}
 
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                {/* <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
                   <p className="text-sm text-amber-900">
-                    <strong>Note:</strong> Results are based on AI analysis. For critical decisions, 
+                    <strong>Note:</strong> Results are based on AI analysis. For critical decisions,
                     please consult with a veterinarian or livestock expert.
                   </p>
-                </div>
+                </div> */}
               </div>
             )}
 
