@@ -9,3 +9,6 @@ local_model/
 
 # Mac
 .DS_Store
+# Ignore model weight files
+*.pth
+*.pt
