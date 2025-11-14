@@ -1,7 +1,5 @@
 
-  # Cattle-Net Breed Recognition App
-
-  This is a code bundle for Cattle-Net Breed Recognition App. The original project is available at https://www.figma.com/design/3OS6qlSTOB27kHKJTk6qJN/Cattle-Net-Breed-Recognition-App.
+ 
 
   ## Running the code
 
