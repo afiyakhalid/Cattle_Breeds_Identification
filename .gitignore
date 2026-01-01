@@ -12,3 +12,4 @@ local_model/
 # Ignore model weight files
 *.pth
 *.pt
+node_modules/

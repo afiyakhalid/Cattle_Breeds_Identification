@@ -33,17 +33,25 @@ import HistoryPage from "./pages/HistoryPage";
 import VisualizationPage from "./pages/VisualizationPage";
 import HealthPage from "./pages/HealthPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
+import Dashboard from "./pages/Dashboard";
+import LoginPage from "./pages/LoginPage";
+import ProfilePage from "./pages/ProfilePage";
+import AuthPage from "./pages/AuthPage"; //
 
 const App = () => (
   <Router>
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/auth" element={<AuthPage />} />
       <Route path="/predict" element={<PredictionPage />} />
       <Route path="/library" element={<LibraryPage />} />
       <Route path="/history" element={<HistoryPage />} />
       <Route path="/visualization" element={<VisualizationPage />} />
       <Route path="/health" element={<HealthPage />} />
       <Route path="/analytics" element={<AnalyticsPage />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
     </Routes>
   </Router>
 );
