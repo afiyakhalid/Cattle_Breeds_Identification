@@ -310,4 +310,39 @@ If something fails, copy these outputs
   PY
   ```
 
-I can then tell you exactly which lines to change or fix. Good luck — if you want, I can also produce a ready-to-commit `README.md` file in the repo (I already prepared the content above). Would you like me to create that file for you in the repository?
+I can then tell you exactly which lines to change or fix. Good luck — if you want, I can also produce a ready-to-commit `README.md` file in the repo (I already prepared the content above). Would you like me to create that file for you in the repository?inal 1: Run the Backend (The "Engine")
+Open your MINGW64 terminal.
+
+Go to the root of your project:
+
+Bash
+
+cd D:\CattleBreed
+Activate the backend's virtual environment:
+
+Bash
+
+source backend/venv/Scripts/activate
+(You should see (venv) in your prompt)
+
+Run the Uvicorn server:
+
+Bash
+
+uvicorn backend.app:app --host 0.0.0.0 --port 8000 --reload
+Leave this terminal running. You are done when you see: Loaded model from ... INFO: Application startup complete.
+
+Terminal 2: Run the Frontend (The "Car")
+Open a new, separate MINGW64 terminal.
+
+Go to the frontend folder:
+
+Bash
+
+cd D:\CattleBreed\frontend
+Run the Vite development server:
+
+Bash
+
+npm run dev
+Leave this terminal running. It will automatically open your website in your browser at: http://localhost:3000
